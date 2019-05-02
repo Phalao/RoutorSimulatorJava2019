@@ -1,2 +1,2 @@
-public class Feu extends Obstacle {
+public class Feu extends Obstacle{
 }

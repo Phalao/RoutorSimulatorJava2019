@@ -1,6 +1,9 @@
+import utile.Position;
+import utile.Priorite;
+
 public class Obstacle {
-    int routeA;
-    int routeB;
-    int posY;
-    int ordrePrio;
+    Position pos;
+    Route routeA;
+    Route routeB;
+    Priorite ordrePrio;
 }

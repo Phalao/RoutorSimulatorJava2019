@@ -1,5 +1,6 @@
+import utile.Position;
+
 public class Ville {
     int capacity;
-    int posX;
-    int posY;
+    Position pos;
 }

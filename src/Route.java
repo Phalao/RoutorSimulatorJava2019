@@ -1,6 +1,6 @@
 public class Route {
-    int villeA;
-    int villeB;
+    Ville villeA;
+    Ville villeB;
     int nbVoie;
     int longueur;
     int vMax;
