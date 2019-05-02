@@ -1,5 +1,7 @@
-import utile.Position;
-import utile.Voie;
+package Bassez.Bortolotti.Desmarescaux.Object;
+
+import Bassez.Bortolotti.Desmarescaux.utile.Position;
+import Bassez.Bortolotti.Desmarescaux.utile.Voie;
 
 public class Véhicule {
     int vitesse;
