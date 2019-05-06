@@ -51,7 +51,7 @@ public class Main extends Application {
         text.setFill(Color.BLUE);
 
         //Fenetre
-
+        //blabla
         root.getChildren().setAll(circle_1,circle_2,route_1,text);//Doit contenir tous les noeuds
         final Scene scene = new Scene(root, 600, 600);
         //Taille de la fenetre d'affichage
