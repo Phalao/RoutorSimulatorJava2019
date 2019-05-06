@@ -20,7 +20,7 @@ public class Main extends Application {
         final Ville villeA = new Ville(100,new Position(100,100),root);
 
         final Ville villeB = new Ville(100,new Position(400,100),root);
-
+        //blabla
         //Mise en place de texte
         final Text text = new Text("Salut le monde !");
         text.setLayoutX(100);
