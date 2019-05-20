@@ -6,6 +6,11 @@ public class Position {
     //=== Position en y ===
     private int y;
 
+    public Position(Position pos) {
+        this.x = pos.getX();
+        this.y = pos.getY();
+    }
+
     //=== Getter and Setter ===
     public int getX() { return x; }
     public int getY() { return y; }

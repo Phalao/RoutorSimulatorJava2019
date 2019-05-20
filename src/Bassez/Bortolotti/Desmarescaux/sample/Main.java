@@ -1,60 +1,37 @@
 package Bassez.Bortolotti.Desmarescaux.sample;
 
+import Bassez.Bortolotti.Desmarescaux.Object.Car;
 import Bassez.Bortolotti.Desmarescaux.Object.Ville;
+import Bassez.Bortolotti.Desmarescaux.Route.Autoroute;
+import Bassez.Bortolotti.Desmarescaux.Route.Natinonal;
+import Bassez.Bortolotti.Desmarescaux.Route.Route;
 import Bassez.Bortolotti.Desmarescaux.utile.Position;
+import Bassez.Bortolotti.Desmarescaux.utile.Repository;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        final Pane root = new Pane();
-        final Circle circle_1 = new Circle(400, 100,100);//x,y,rayon
-        circle_1.setFill(Color.RED);
-        final RadialGradient gradient_1 = new RadialGradient(0, 0, 0.5, 0.5, 0.5, true, CycleMethod.NO_CYCLE,
-                new Stop(0, Color.RED),
-                new Stop(1, Color.CRIMSON));
-        circle_1.setFill(gradient_1);
-
-
-        //Tentative de mettre un deuxieme point
-
-        final Circle circle_2 = new Circle(100, 100,100);//x,y,rayon
-        circle_2.setFill(Color.GREEN);
-        final RadialGradient gradient_2 = new RadialGradient(0, 0, 0.5, 0.5, 0.5, true, CycleMethod.NO_CYCLE,
-                new Stop(0, Color.CHARTREUSE),
-                new Stop(1, Color.GREEN));
-        circle_2.setFill(gradient_2);
-
-        final Ville villeB = new Ville(100,new Position(400,100),root);
-        //blabla
-        //Mise en place d'une route
-        Line route_1 = new Line(400,100,100,100);
-
-        route_1.setStroke(Color.BLACK);//Mise en place d'une bordure de couleur noir
-        route_1.setStrokeWidth(3);//Taille de la bordure
-
-        //Mise en place de texte
-        final Text text = new Text("Salut le monde !");
-        text.setLayoutX(100);
-        text.setLayoutY(100);
-        text.setFill(Color.BLUE);
+        Repository repository = new Repository();
+        Pane root = new Pane();
+        Ville villeA = new Ville("VilleA",10,new Position(500,200),root,repository);
+        Ville villeB = new Ville("VilleB",10,new Position(100,100),root,repository);
+        Route NationalA = new Natinonal(villeA,villeB,100,root,repository);
+        Ville villeC = new Ville("VilleC",10,new Position(500,300),root,repository);
+        Ville villeD = new Ville("VilleD",10,new Position(100,300),root,repository);
+        Route AutorauteD = new Autoroute(villeC,villeD,100,root,repository);
+        repository.afficher(root);
+        Car car = new Car(villeA,villeB,root);
+        root.getChildren().add(car.rectangle);
+        Car car2 = new Car(villeC,villeD,root);
+        root.getChildren().add(car2.rectangle);
 
         //Fenetre
-        //blabla
-        root.getChildren().setAll(circle_1,circle_2,route_1,text);//Doit contenir tous les noeuds
-        final Scene scene = new Scene(root, 600, 600);
-        //Taille de la fenetre d'affichage
+        Scene scene = new Scene(root, 600, 600);
         primaryStage.setTitle("Affichage de plusieurs cercles");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -64,5 +41,3 @@ public class Main extends Application {
         launch(args);
     }
 }
-
-//test
