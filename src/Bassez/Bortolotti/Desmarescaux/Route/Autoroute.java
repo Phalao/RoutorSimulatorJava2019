@@ -5,8 +5,6 @@ import Bassez.Bortolotti.Desmarescaux.utile.Position;
 import Bassez.Bortolotti.Desmarescaux.utile.Repository;
 import Bassez.Bortolotti.Desmarescaux.utile.Voie;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 
 public class Autoroute extends Route {
     private Voie voie1;
@@ -15,18 +13,25 @@ public class Autoroute extends Route {
     private Voie voie4;
 
     public Autoroute(Ville A, Ville B, int v, Pane root,Repository repository) {
-        this.voie1 = new Voie();
-        this.voie2 = new Voie();
-        this.voie3 = new Voie();
-        this.voie4 = new Voie();
-        this.route = new Line(A.pos.getX(), A.pos.getY(), B.pos.getX(), B.pos.getY());
+        this.voie1 = new Voie(//TODO mettre en fonction de cos // sin
+                new Position(A.pos.getX()+5,A.pos.getY()+5),
+                new Position(B.pos.getX()+5,B.pos.getY()+5),
+                this,repository);
+        this.voie2 = new Voie(
+                new Position(A.pos.getX()+10,A.pos.getY()+10),
+                new Position(B.pos.getX()+10,B.pos.getY()+10),
+                this,repository);
+        this.voie3 = new Voie(
+                new Position(A.pos.getX()-5,A.pos.getY()-5),
+                new Position(B.pos.getX()-5,B.pos.getY()-5),
+                this,repository);
+        this.voie4 = new Voie(
+                new Position(A.pos.getX()-10,A.pos.getY()-10),
+                new Position(B.pos.getX()-10,B.pos.getY()-10),
+                this,repository);
         this.A = A;
         this.B = B;
-        this.pos = new Position(A.pos.getX() - B.pos.getY(), A.pos.getY() - B.pos.getY());
         this.longueur = (int) (B.pos.getY() - A.pos.getY()) / (B.pos.getX() - A.pos.getX());
         this.vMax = v;
-        this.route.setStroke(Color.BLACK);//Mise en place d'une bordure de couleur noir
-        this.route.setStrokeWidth(6);//Taille de la bordure
-        repository.ListRouteA.add(this);
     }
 }

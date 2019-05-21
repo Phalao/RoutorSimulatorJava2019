@@ -1,14 +1,15 @@
 package Bassez.Bortolotti.Desmarescaux.Route;
 
-import Bassez.Bortolotti.Desmarescaux.Object.Noeud;
-import Bassez.Bortolotti.Desmarescaux.utile.Position;
-import javafx.scene.shape.Line;
+import Bassez.Bortolotti.Desmarescaux.utile.Noeud;
+import javafx.util.Pair;
 
 public class Route{
-    Noeud A;
-    Noeud B;
-    int longueur;
-    int vMax;
-    Position pos;
-    public Line route;
+    public Noeud A;
+    public Noeud B;
+    public int longueur;
+    public int vMax;
+
+    public Pair<Noeud,Noeud> getVille(){
+        return new Pair<>(A,B);
+    }
 }

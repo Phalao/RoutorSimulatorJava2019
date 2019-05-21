@@ -1,6 +1,7 @@
 package Bassez.Bortolotti.Desmarescaux.Object;
 
 
+import Bassez.Bortolotti.Desmarescaux.utile.Noeud;
 import Bassez.Bortolotti.Desmarescaux.utile.Position;
 import Bassez.Bortolotti.Desmarescaux.utile.Repository;
 import javafx.scene.layout.Pane;
@@ -11,7 +12,7 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
-public class Ville implements Noeud{
+public class Ville implements Noeud {
     private int capacity;
     public Position pos;
     public Circle circle;

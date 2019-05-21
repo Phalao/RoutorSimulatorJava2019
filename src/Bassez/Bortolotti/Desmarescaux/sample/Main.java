@@ -25,14 +25,14 @@ public class Main extends Application {
         Ville villeD = new Ville("VilleD",10,new Position(100,300),root,repository);
         Route AutorauteD = new Autoroute(villeC,villeD,100,root,repository);
         repository.afficher(root);
-        Car car = new Car(villeA,villeB,root);
+        Car car = new Car(villeA,villeB,root,repository);
         root.getChildren().add(car.rectangle);
-        Car car2 = new Car(villeC,villeD,root);
+        Car car2 = new Car(villeC,villeD,root,repository);
         root.getChildren().add(car2.rectangle);
 
         //Fenetre
         Scene scene = new Scene(root, 600, 600);
-        primaryStage.setTitle("Affichage de plusieurs cercles");
+        primaryStage.setTitle("Simulation de voiture");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
