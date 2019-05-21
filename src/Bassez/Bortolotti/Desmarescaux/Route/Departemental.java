@@ -17,7 +17,12 @@ public class Departemental extends Route {
         voie3 = new Voie(A.pos,B.pos,this,repository);
         this.A = A;
         this.B = B;
-        this.longueur = (int) (B.pos.getY()-A.pos.getY())/(B.pos.getX()-A.pos.getX());
+        this.longueur = (B.pos.getY()-A.pos.getY())/(B.pos.getX()-A.pos.getX());
         this.vMax = v;
+    }
+
+    @Override
+    public String toString() {
+        return "Departemental";
     }
 }

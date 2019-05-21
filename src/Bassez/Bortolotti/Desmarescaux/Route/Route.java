@@ -6,8 +6,8 @@ import javafx.util.Pair;
 public class Route{
     public Noeud A;
     public Noeud B;
-    public int longueur;
-    public int vMax;
+    public double longueur;
+    public double vMax;
 
     public Pair<Noeud,Noeud> getVille(){
         return new Pair<>(A,B);

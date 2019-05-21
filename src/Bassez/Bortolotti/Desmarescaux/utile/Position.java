@@ -2,9 +2,9 @@ package Bassez.Bortolotti.Desmarescaux.utile;
 
 public class Position {
     //=== Position en x ===
-    private int x;
+    private double x;
     //=== Position en y ===
-    private int y;
+    private double y;
 
     public Position(Position pos) {
         this.x = pos.getX();
@@ -12,13 +12,13 @@ public class Position {
     }
 
     //=== Getter and Setter ===
-    public int getX() { return x; }
-    public int getY() { return y; }
-    public void setX(int x) { this.x = x; }
-    public void setY(int y) { this.y = y; }
+    public double getX() { return x; }
+    public double getY() { return y; }
+    public void setX(double x) { this.x = x; }
+    public void setY(double y) { this.y = y; }
 
     //=== Constructeur ===
-    public Position(int x, int y) {
+    public Position(double x, double y) {
         this.x = x;
         this.y = y;
     }
