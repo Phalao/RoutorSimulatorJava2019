@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Voie {
-    public HashMap<Car, Double> ListObstacle;
     public ArrayList<Car> ListVoiture;
     public Line route;
     public Route r;
@@ -18,7 +17,6 @@ public class Voie {
 
     //=== Constructeur ===
     public Voie(Position posA, Position posB,Route r,Repository repository){
-        this.ListObstacle = new HashMap<>();
         this.ListVoiture = new ArrayList<>();
         this.r = r;
         this.A = posA;

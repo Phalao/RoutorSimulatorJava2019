@@ -31,11 +31,13 @@ public class Main extends Application {
         Route NationalA = new Natinonal(villeA, villeB, 100, root, repository);
         Ville villeC = new Ville("VilleC", 10, new Position(500, 300), root, repository);
         Ville villeD = new Ville("VilleD", 10, new Position(100, 300), root, repository);
-        Route AutorauteD = new Autoroute(villeC, villeD, 100, root, repository);
+        Route NationalB = new Natinonal(villeC, villeD, 100, root, repository);
         repository.afficher(root);
 
-        Car car = new Car(villeA, villeB, root, repository);
+        Car car = new Car(villeC, villeD,50, root, repository);
         root.getChildren().add(car.rectangle);
+        Car car2 = new Car(villeC, villeD,70, root, repository);
+        root.getChildren().add(car2.rectangle);
 
         //Fenetre
         Scene scene = new Scene(root, 600, 600);
@@ -57,6 +59,8 @@ public class Main extends Application {
             }
         };
         timer.start();
+
+
     }
 
     public static void main(String[] args) {
