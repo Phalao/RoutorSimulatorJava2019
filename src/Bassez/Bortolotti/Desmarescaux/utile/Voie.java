@@ -2,28 +2,32 @@ package Bassez.Bortolotti.Desmarescaux.utile;
 
 import Bassez.Bortolotti.Desmarescaux.Object.Car;
 import Bassez.Bortolotti.Desmarescaux.Route.Route;
+import Bassez.Bortolotti.Desmarescaux.sample.Main;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Voie {
     public ArrayList<Car> ListVoiture;
-    public Line route;
-    public Route r;
+    public Line line;
+    public Route route;
     public Position A;
     public Position B;
 
     //=== Constructeur ===
-    public Voie(Position posA, Position posB,Route r,Repository repository){
+    public Voie(Position posA, Position posB, Route r, Main m){
         this.ListVoiture = new ArrayList<>();
-        this.r = r;
+        this.route = r;
         this.A = posA;
         this.B = posB;
-        this.route = new Line(posA.getX(),posA.getY(),posB.getX(),posB.getY());
-        this.route.setStroke(Color.BLACK);//Mise en place d'une bordure de couleur noir
-        this.route.setStrokeWidth(0.25);//Taille de la bordure
-        repository.ListVoie.add(this);
+        m.repository.ListVoie.add(this);
+    }
+
+    public void afficher(Main m){
+        line = new Line(A.getX(),A.getY(),B.getX(),B.getY());
+        line.setStroke(Color.BLACK);//Mise en place d'une bordure de couleur noir
+        line.setStrokeWidth(0.25);//Taille de la bordure
+        m.root.getChildren().add(line);
     }
 }

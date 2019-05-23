@@ -1,80 +1,58 @@
 package Bassez.Bortolotti.Desmarescaux.sample;
 
 import Bassez.Bortolotti.Desmarescaux.Object.Car;
+import Bassez.Bortolotti.Desmarescaux.Object.Obstacle.Feu;
+import Bassez.Bortolotti.Desmarescaux.Object.Obstacle.Obstacle;
 import Bassez.Bortolotti.Desmarescaux.Object.Ville;
-import Bassez.Bortolotti.Desmarescaux.Route.Autoroute;
 import Bassez.Bortolotti.Desmarescaux.Route.Departemental;
 import Bassez.Bortolotti.Desmarescaux.Route.Natinonal;
 import Bassez.Bortolotti.Desmarescaux.Route.Route;
 import Bassez.Bortolotti.Desmarescaux.utile.Position;
 import Bassez.Bortolotti.Desmarescaux.utile.Repository;
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.awt.event.ActionEvent;
 
 public class Main extends Application {
 
-    private AnimationTimer timer;
+    public Repository repository;
+    public Pane root;
 
     @Override
     public void start(Stage primaryStage) {
-        Repository repository = new Repository();
-        Pane root = new Pane();
-        Ville villeA = new Ville("VilleA", 10, new Position(500, 200), root, repository);
-        Ville villeB = new Ville("VilleB", 10, new Position(100, 100), root, repository);
-        Route N = new Natinonal(villeA, villeB, 100, root, repository);
-        Ville villeC = new Ville("VilleC", 10, new Position(500, 300), root, repository);
-        Ville villeD = new Ville("VilleD", 10, new Position(100, 300), root, repository);
-        Route D = new Departemental(villeC, villeD, 100, root, repository);
-        repository.afficher(root);
+        //=== Initialisation ===
+        repository = new Repository();
 
-        Car car = new Car(villeA, villeB,true, root, repository);
-        root.getChildren().add(car.rectangle);
-        Car car2 = new Car(villeC, villeD,true, root, repository);
-        root.getChildren().add(car2.rectangle);
-        Car car3 = new Car(villeD, villeC,false, root, repository);
-        root.getChildren().add(car3.rectangle);
-        Car car4 = new Car(villeB, villeA,false, root, repository);
-        root.getChildren().add(car4.rectangle);
+        //=== Creation de la ville ===
+        //Ville villeA = new Ville("VilleA", 10, new Position(500, 200), this);
+        //Ville villeB = new Ville("VilleB", 10, new Position(100, 100), this);
+        Ville villeC = new Ville("VilleC", 10, new Position(500, 400), this);
+        Ville villeD = new Ville("VilleD", 10, new Position(100, 400), this);
 
-        //Fenetre
+        //=== Creation des intersection ===
+        Feu F = new Feu(new Position(300,100), Obstacle.Priorite.UN,this);
+
+        //=== Creation des different Route ===
+        //Route N1 = new Natinonal(villeA, F, 100,this);
+        Route N2 = new Natinonal(villeC, F, 100,this);
+        Route N3 = new Departemental(F, villeD, 100,this);
+
+        //=== On affiche les different element ===
+        root = new Pane();
         Scene scene = new Scene(root, 600, 600);
         primaryStage.setTitle("Simulation de voiture");
         primaryStage.setScene(scene);
         primaryStage.show();
+        repository.afficher(this);
 
-        timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                if(Math.random() >=0.99) {
-                    Car car = new Car(villeA, villeB,true, root, repository);
-                    root.getChildren().add(car.rectangle);
-                }
-                if(Math.random() >=0.99) {
-                    Car car2 = new Car(villeC, villeD,true, root, repository);
-                    root.getChildren().add(car2.rectangle);
-                }
-                if(Math.random() >=0.99) {
-                    Car car3 = new Car(villeD, villeC,false, root, repository);
-                    root.getChildren().add(car3.rectangle);
-                }
-                if(Math.random() >=0.99) {
-                    Car car4 = new Car(villeB, villeA,false, root, repository);
-                    root.getChildren().add(car4.rectangle);
-                }
+        Car c = new Car(villeC,villeD,true,this);
+        c.afficher(this);
 
-            }
-        };
-        timer.start();
-
-
+        //Car c2 = new Car(villeC,villeD,false,this);
+        //c2.afficher(this);
+        //Car c3 = new Car(villeC,villeD,false,this);
+        //c3.afficher(this);
     }
 
     public static void main(String[] args) {

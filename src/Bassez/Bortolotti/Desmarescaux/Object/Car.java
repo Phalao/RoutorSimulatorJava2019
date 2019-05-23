@@ -1,9 +1,8 @@
 package Bassez.Bortolotti.Desmarescaux.Object;
 
-import Bassez.Bortolotti.Desmarescaux.Route.Autoroute;
 import Bassez.Bortolotti.Desmarescaux.Route.Departemental;
 import Bassez.Bortolotti.Desmarescaux.Route.Natinonal;
-import Bassez.Bortolotti.Desmarescaux.utile.Noeud;
+import Bassez.Bortolotti.Desmarescaux.sample.Main;
 import Bassez.Bortolotti.Desmarescaux.utile.Position;
 import Bassez.Bortolotti.Desmarescaux.utile.Repository;
 import Bassez.Bortolotti.Desmarescaux.utile.Voie;
@@ -15,9 +14,9 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
+
 
 public class Car {
     private double vitesse;
@@ -31,16 +30,17 @@ public class Car {
     public Rectangle rectangle;
     private AnimationTimer timer;
     private Position pos;
-    private PathTransition p;
     private Car c;
     private boolean sens;
 
-    public synchronized void Afficher(Pane root){
-        voieOccupee = voieDepart;
+    private static final double t = 0.01;
 
-        this.pos = new Position(this.voieOccupee.A);
-        rectangle = new Rectangle(villeDepart.pos.getX(),villeDepart.pos.getY(), taille, 3);
-        rectangle.setFill(Color.RED);
+    public synchronized void avancement(Pane root){
+        voieOccupee = voieDepart;
+        if(sens)
+            this.pos = new Position(this.voieOccupee.A);
+        else
+            this.pos = new Position(this.voieOccupee.B);
         Distance = 0;
         timer = new AnimationTimer() {
             @Override
@@ -50,63 +50,60 @@ public class Car {
                 }
                 if (voieOccupee.ListVoiture.contains(c)) {
                     double distance = (Math.sqrt(Math.pow(voieOccupee.B.getX() - voieOccupee.A.getX(), 2) + Math.pow(voieOccupee.B.getY() - voieOccupee.A.getY(), 2)));
-                    double t = 0.005;
                     Distance += t * vitesse;
-                    double rapport = Distance / distance;
-                    double x = voieOccupee.A.getX() + (voieOccupee.B.getX() - voieOccupee.A.getX()) * rapport;
-                    double y = voieOccupee.A.getY() + (voieOccupee.B.getY() - voieOccupee.A.getY()) * rapport;
-                    if (vitesse != 0) {//=== Evite le clignotement si jamais elle sont arrête
-                        final Path path = new Path(
-                                new MoveTo(pos.getX(), pos.getY()),
-                                new LineTo(x, y));
-                        p = new PathTransition(Duration.seconds(t), path, rectangle);
-                        p.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-                        p.setInterpolator(Interpolator.LINEAR);
-                        p.setCycleCount(1);
-                        p.play();
+                    double x;
+                    double y;
+                    if(sens) {
+                        x = voieOccupee.A.getX() + (voieOccupee.B.getX() - voieOccupee.A.getX()) * Distance / distance;
+                        y = voieOccupee.A.getY() + (voieOccupee.B.getY() - voieOccupee.A.getY()) * Distance / distance;
+                    }else {
+                        x = voieOccupee.B.getX() + (voieOccupee.A.getX() - voieOccupee.B.getX()) * Distance / distance;
+                        y = voieOccupee.B.getY() + (voieOccupee.A.getY() - voieOccupee.B.getY()) * Distance / distance;
                     }
-                    //=== On regarde si elle peuvent avancé ===
-                    boolean depassement = false;
-                    if (voieOccupee == voieDepart) {
-                        if (libre(voieOccupee) != null) {
-                            Car car = libre(voieOccupee);
-                            switch (voieOccupee.r.toString().charAt(0)) {
-                                case 'N'://TODO mettre les point en fonction du sens
-                                    /*if (libre(((Natinonal) voieOccupee.r).getVoie(true)) == null  && car.vmax < vmax) {
-                                        depassement = true;
-                                        voieOccupee.ListVoiture.remove(c);
-                                        voieOccupee = ((Natinonal) voieOccupee.r).getVoie(true);
-                                    } else
-                                        depassement = false;*/
-                                    break;
-                                case 'D':
-                                    if (libre(((Departemental) voieOccupee.r).getVoie(sens)) == null  && car.vmax < vmax) {
-                                        depassement = true;
-                                        voieOccupee.ListVoiture.remove(c);
-                                        voieOccupee = ((Departemental) voieOccupee.r).getVoie(sens);
-                                    } else
-                                        depassement = false;
-                                    break;
+                    if (vitesse != 0)
+                        animation(x,y,t);
+
+                    //=== Avancement ===
+                    if (voieOccupee == voieDepart && libre(voieOccupee) != null) {
+                        boolean depassement = false;
+                        Car car = libre(voieOccupee);
+                        switch (voieOccupee.route.toString().charAt(0)) {
+                            case 'N':
+                                if (libre(((Natinonal) voieOccupee.route).getVoie(sens)) == null && car.vmax < vmax) {
+                                    depassement = true;
+                                    voieOccupee.ListVoiture.remove(c);
+                                    voieOccupee = ((Natinonal) voieOccupee.route).getVoie(sens);
+                                } else
+                                    depassement = false;
+                                break;
+                            case 'D':
+                                if (libre(((Departemental) voieOccupee.route).getVoie(sens)) == null  && car.vmax < vmax) {
+                                    depassement = true;
+                                    voieOccupee.ListVoiture.remove(c);
+                                    voieOccupee = ((Departemental) voieOccupee.route).getVoie(sens);
+                                } else
+                                    depassement = false;
+                                break;
                             }
                             if (!depassement)
                                 if (vitesse >= 2)
                                     vitesse = vitesse - 2;
                                 else
                                     vitesse = 0;
-                        }
-                    } else {
-                        if (libre(voieDepart) == null) {
-                            voieOccupee.ListVoiture.remove(c);
-                            voieOccupee = voieDepart;
-                        }else if(libre(voieOccupee) != null) {
-                            if (vitesse >= 2)
-                                vitesse = vitesse - 2;
-                            else
-                                vitesse = 0;
-                        }
                     }
+                    else if (voieOccupee != voieDepart && libre(voieDepart) == null) {
+                        voieOccupee.ListVoiture.remove(c);
+                        voieOccupee = voieDepart;
+                    }
+                    else if(voieOccupee != voieDepart && libre(voieOccupee) != null) {
+                        if (vitesse >= 2)
+                            vitesse = vitesse - 2;
+                        else
+                            vitesse = 0;
+                    }
+
+                    //=== Si c'est fini ===
                     if (Distance >= distance) {
-                        //=== FINI ===
                         stop();
                         rectangle.setVisible(false);
                         voieOccupee.ListVoiture.remove(c);
@@ -125,40 +122,50 @@ public class Car {
     private ArrayList<Voie> Parcour(Repository repository){
         ArrayList<Voie> p = new ArrayList<>();
         for(Voie v: repository.ListVoie){
-            if(sens){//TODO ne peux mettre la 2ème voie
-                if(this.villeDepart == v.r.A && this.villeFin == v.r.B)
-                    if(v.r.getDebut(true) == v)
+                if(this.villeDepart == v.route.A && this.villeFin == v.route.B)
+                    if(v.route.getDebut(sens) == v)
                         p.add(v);
-                }
-            else{
-                if(this.villeDepart == v.r.B && this.villeFin == v.r.A)
-                    if(v.r.getDebut(false) == v)
-                        p.add(v);
-            }
         }
-        System.out.println(p);
         return p;
     }
 
-    public Car(Ville A, Ville B,boolean s, Pane root,Repository repository){
-        //=== On met les différente ville
+    public Car(Ville A, Ville B,boolean s, Main m){
         villeDepart = A;
         villeFin = B;
         sens = s;
 
-        //=== On calcule le parcour et on le met sur la première voie
-        ArrayList<Voie> p = Parcour(repository);
+        ArrayList<Voie> p = Parcour(m.repository);
         if(p.size() != 0){
             voieDepart = p.get(0);
         }
+        else {
+            System.out.println("La voiture ne peux pas y arrivé");
+        }
 
-        //=== On calcule différente caratéristique ===
         vmax = ((Math.random()*60)+60);
         vitesse = 0;
         taille = (Math.random()*0 + 10);
         c = this;
+        avancement(m.root);
+    }
 
-        Afficher(root);
+    public void afficher(Main m){
+        rectangle = new Rectangle(villeDepart.pos.getX(),villeDepart.pos.getY(), taille, 3);
+        rectangle.setFill(Color.RED);
+        m.root.getChildren().add(rectangle);
+    }
+
+    public void animation(double x,double y,double t){
+        if(rectangle != null) {
+            final Path path = new Path(
+                    new MoveTo(pos.getX(), pos.getY()),
+                    new LineTo(x, y));
+            PathTransition p = new PathTransition(Duration.seconds(t), path, rectangle);
+            p.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+            p.setInterpolator(Interpolator.LINEAR);
+            p.setCycleCount(1);
+            p.play();
+        }
     }
 
     public Car libre(Voie v){
@@ -168,7 +175,10 @@ public class Car {
             min = arrondiNDecimales(Distance,2);
         else
             min = arrondiNDecimales(Distance - (taille * 3),2);
-        max = arrondiNDecimales(Distance + (taille*1.1) + vitesse/3,2);
+        if(v.route.toString() == "Nationnal" && v != voieDepart)
+            max = v.route.longueur;
+        else
+            max = arrondiNDecimales(Distance + (taille*1.1) + vitesse/3,2);
         for (Car car:v.ListVoiture) {
                 if (car.Distance <= max && car.Distance >= min && c != car ) {
                     return car;

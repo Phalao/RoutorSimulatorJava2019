@@ -1,12 +1,11 @@
 package Bassez.Bortolotti.Desmarescaux.Object.Obstacle;
 
 import Bassez.Bortolotti.Desmarescaux.Route.Route;
-
-import javax.swing.text.Position;
+import Bassez.Bortolotti.Desmarescaux.utile.Position;
 
 public class Obstacle{
 
-    public static enum Priorite {
+    public static enum Priorite{
         UN,DEUX,TROIS
     }
 
@@ -15,16 +14,18 @@ public class Obstacle{
     private Route routeB;
     private Priorite ordrePrio;
 
-    public Obstacle(Position pos, Route routeA, Route routeB, Priorite ordrePrio) {
+    public Obstacle(Position pos, Priorite ordrePrio) {
         this.pos = pos;
-        this.routeA = routeA;
-        this.routeB = routeB;
         this.ordrePrio = ordrePrio;
     }
 
-    public Position getPos() { return pos; }
+    public Position getPos() {
+        return pos;
+    }
 
-    public void setPos(Position pos) { this.pos = pos; }
+    public void setPos(Position pos) {
+        this.pos = pos;
+    }
 
     public Route getRouteA() { return routeA; }
 
