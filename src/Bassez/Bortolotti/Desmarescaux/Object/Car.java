@@ -1,6 +1,7 @@
 package Bassez.Bortolotti.Desmarescaux.Object;
 
 import Bassez.Bortolotti.Desmarescaux.Route.Autoroute;
+import Bassez.Bortolotti.Desmarescaux.Route.Departemental;
 import Bassez.Bortolotti.Desmarescaux.Route.Natinonal;
 import Bassez.Bortolotti.Desmarescaux.utile.Noeud;
 import Bassez.Bortolotti.Desmarescaux.utile.Position;
@@ -23,7 +24,6 @@ public class Car {
     private double vmax;
     private double taille;
     private double Distance;
-    private double position;
     private Voie voieOccupee;
     private Voie voieDepart;
     private Ville villeDepart;
@@ -33,9 +33,11 @@ public class Car {
     private Position pos;
     private PathTransition p;
     private Car c;
+    private boolean sens;
 
     public synchronized void Afficher(Pane root){
         voieOccupee = voieDepart;
+
         this.pos = new Position(this.voieOccupee.A);
         rectangle = new Rectangle(villeDepart.pos.getX(),villeDepart.pos.getY(), taille, 3);
         rectangle.setFill(Color.RED);
@@ -70,10 +72,18 @@ public class Car {
                             Car car = libre(voieOccupee);
                             switch (voieOccupee.r.toString().charAt(0)) {
                                 case 'N':
-                                    if (libre(((Natinonal) voieOccupee.r).getVoie2()) == null  && car.vmax < vmax) {
+                                    if (libre(((Natinonal) voieOccupee.r).getVoie(true)) == null  && car.vmax < vmax) {
                                         depassement = true;
                                         voieOccupee.ListVoiture.remove(c);
-                                        voieOccupee = ((Natinonal) voieOccupee.r).getVoie2();
+                                        voieOccupee = ((Natinonal) voieOccupee.r).getVoie(true);
+                                    } else
+                                        depassement = false;
+                                    break;
+                                case 'D':
+                                    if (libre(((Departemental) voieOccupee.r).getVoie(sens)) == null  && car.vmax < vmax) {
+                                        depassement = true;
+                                        voieOccupee.ListVoiture.remove(c);
+                                        voieOccupee = ((Departemental) voieOccupee.r).getVoie(sens);
                                     } else
                                         depassement = false;
                                     break;
@@ -115,17 +125,26 @@ public class Car {
     private ArrayList<Voie> Parcour(Repository repository){
         ArrayList<Voie> p = new ArrayList<>();
         for(Voie v: repository.ListVoie){
-            if(this.villeDepart == v.r.A && this.villeFin == v.r.B){
-                p.add(v);
+            if(sens){//TODO ne peux mettre la 2ème voie
+                if(this.villeDepart == v.r.A && this.villeFin == v.r.B)
+                    if(v.r.getDebut(true) == v)
+                        p.add(v);
+                }
+            else{
+                if(this.villeDepart == v.r.B && this.villeFin == v.r.A)
+                    if(v.r.getDebut(false) == v)
+                        p.add(v);
             }
         }
+        System.out.println(p);
         return p;
     }
 
-    public Car(Ville A, Ville B, Pane root,Repository repository){
+    public Car(Ville A, Ville B,boolean s, Pane root,Repository repository){
         //=== On met les différente ville
         villeDepart = A;
         villeFin = B;
+        sens = s;
 
         //=== On calcule le parcour et on le met sur la première voie
         ArrayList<Voie> p = Parcour(repository);
@@ -158,8 +177,10 @@ public class Car {
         this.vitesse = vitesse;
         taille = (Math.random()*0 + 10);
         c = this;
-
-        Afficher(root);
+        if(p.size() != 0) {
+            voieDepart = p.get(0);
+            Afficher(root);
+        }
     }
 
     public Car libre(Voie v){

@@ -14,7 +14,7 @@ public class Natinonal extends Route {
         return voie1;
     }
 
-    public Voie getVoie2() {
+    public Voie getVoie(boolean t) {
         return voie2;
     }
 
@@ -37,4 +37,6 @@ public class Natinonal extends Route {
     public String toString() {
         return "National";
     }
+
+    public Voie getDebut(boolean t){return voie1;}
 }

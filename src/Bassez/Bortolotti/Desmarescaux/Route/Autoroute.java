@@ -39,4 +39,12 @@ public class Autoroute extends Route {
     public String toString() {
         return "Autoroute";
     }
+
+    public Voie getVoie(boolean t) {
+        return voie2;
+    }
+    public Voie getDebut(boolean t) {
+        return voie2;
+    }
+
 }

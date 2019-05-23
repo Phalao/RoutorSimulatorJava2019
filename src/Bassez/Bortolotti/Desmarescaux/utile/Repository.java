@@ -2,7 +2,6 @@ package Bassez.Bortolotti.Desmarescaux.utile;
 
 import Bassez.Bortolotti.Desmarescaux.Object.Obstacle.Obstacle;
 import Bassez.Bortolotti.Desmarescaux.Object.Ville;
-import Bassez.Bortolotti.Desmarescaux.Route.Route;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;

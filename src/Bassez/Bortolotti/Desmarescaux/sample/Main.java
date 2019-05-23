@@ -3,6 +3,7 @@ package Bassez.Bortolotti.Desmarescaux.sample;
 import Bassez.Bortolotti.Desmarescaux.Object.Car;
 import Bassez.Bortolotti.Desmarescaux.Object.Ville;
 import Bassez.Bortolotti.Desmarescaux.Route.Autoroute;
+import Bassez.Bortolotti.Desmarescaux.Route.Departemental;
 import Bassez.Bortolotti.Desmarescaux.Route.Natinonal;
 import Bassez.Bortolotti.Desmarescaux.Route.Route;
 import Bassez.Bortolotti.Desmarescaux.utile.Position;
@@ -28,16 +29,20 @@ public class Main extends Application {
         Pane root = new Pane();
         Ville villeA = new Ville("VilleA", 10, new Position(500, 200), root, repository);
         Ville villeB = new Ville("VilleB", 10, new Position(100, 100), root, repository);
-        Route NationalA = new Natinonal(villeA, villeB, 100, root, repository);
+        Route N = new Natinonal(villeA, villeB, 100, root, repository);
         Ville villeC = new Ville("VilleC", 10, new Position(500, 300), root, repository);
         Ville villeD = new Ville("VilleD", 10, new Position(100, 300), root, repository);
-        Route NationalB = new Natinonal(villeC, villeD, 100, root, repository);
+        Route D = new Departemental(villeC, villeD, 100, root, repository);
         repository.afficher(root);
 
-        Car car = new Car(villeC, villeD,50, root, repository);
+        Car car = new Car(villeC, villeD,true, root, repository);
         root.getChildren().add(car.rectangle);
-        Car car2 = new Car(villeC, villeD,70, root, repository);
+        Car car2 = new Car(villeC, villeD,true, root, repository);
         root.getChildren().add(car2.rectangle);
+        Car car3 = new Car(villeD, villeC,false, root, repository);
+        root.getChildren().add(car3.rectangle);
+        Car car4 = new Car(villeD, villeC,false, root, repository);
+        root.getChildren().add(car4.rectangle);
 
         //Fenetre
         Scene scene = new Scene(root, 600, 600);
@@ -49,16 +54,23 @@ public class Main extends Application {
             @Override
             public void handle(long now) {
                 if(Math.random() >=0.99) {
-                    Car car = new Car(villeA, villeB, root, repository);
+                    Car car = new Car(villeA, villeB,true, root, repository);
                     root.getChildren().add(car.rectangle);
                 }
                 if(Math.random() >=0.99) {
-                    Car car2 = new Car(villeC, villeD, root, repository);
+                    Car car2 = new Car(villeC, villeD,true, root, repository);
                     root.getChildren().add(car2.rectangle);
                 }
+                if(Math.random() >=0.99) {
+                    Car car3 = new Car(villeD, villeC,false, root, repository);
+                    root.getChildren().add(car3.rectangle);
+                }
+
             }
         };
         timer.start();
+
+
 
 
     }
