@@ -19,19 +19,19 @@ public class Autoroute extends Route {
         this.voie1 = new Voie(//TODO mettre en fonction de cos // sin
                 new Position(A.pos.getX()+5,A.pos.getY()+5),
                 new Position(B.pos.getX()+5,B.pos.getY()+5),
-                this,m);
+                this,this.toString(),m);
         this.voie2 = new Voie(
                 new Position(A.pos.getX()+10,A.pos.getY()+10),
                 new Position(B.pos.getX()+10,B.pos.getY()+10),
-                this,m);
+                this,this.toString(),m);
         this.voie3 = new Voie(
                 new Position(A.pos.getX()-5,A.pos.getY()-5),
                 new Position(B.pos.getX()-5,B.pos.getY()-5),
-                this,m);
+                this,this.toString(),m);
         this.voie4 = new Voie(
                 new Position(A.pos.getX()-10,A.pos.getY()-10),
                 new Position(B.pos.getX()-10,B.pos.getY()-10),
-                this,m);
+                this,this.toString(),m);
         this.A = A;
         this.B = B;
         this.longueur = (B.pos.getY() - A.pos.getY()) / (B.pos.getX() - A.pos.getX());

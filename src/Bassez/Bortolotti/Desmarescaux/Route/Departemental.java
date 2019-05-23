@@ -24,25 +24,25 @@ public class Departemental extends Route {
         this.voie1 = new Voie(
                 new Position(A.getPos().getX(),A.getPos().getY()+5),
                 new Position(B.getPos().getX(),B.getPos().getY()+5),
-                this,m);
+                this,this.toString(),m);
 
         //=== Initialisation de la première Voie ===
         this.voie2 = new Voie(
                 new Position(A.getPos().getX(),A.getPos().getY()+2.5),
                 new Position(B.getPos().getX(),B.getPos().getY()+2.5),
-                this,m);
+                this,this.toString(),m);
 
         //=== Initialisation de la première Voie ===
         this.voie3 = new Voie(
                 new Position(A.getPos().getX(),A.getPos().getY()-2.5),
                 new Position(B.getPos().getX(),B.getPos().getY()-2.5),
-                this,m);
+                this,this.toString(),m);
 
         //=== Initialisation de la première Voie ===
         this.voie4 = new Voie(
                 new Position(A.getPos().getX(),A.getPos().getY()-5),
                 new Position(B.getPos().getX(),B.getPos().getY()-5),
-                this,m);
+                this,this.toString(),m);
 
         //=== Caratéristique ===
         this.A = A;

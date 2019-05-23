@@ -14,10 +14,12 @@ public class Voie {
     public Route route;
     public Position A;
     public Position B;
+    public String name;
 
     //=== Constructeur ===
-    public Voie(Position posA, Position posB, Route r, Main m){
+    public Voie(Position posA, Position posB, Route r,String name, Main m){
         this.ListVoiture = new ArrayList<>();
+        this.name = name;
         this.route = r;
         this.A = posA;
         this.B = posB;
@@ -29,5 +31,10 @@ public class Voie {
         line.setStroke(Color.BLACK);//Mise en place d'une bordure de couleur noir
         line.setStrokeWidth(0.25);//Taille de la bordure
         m.root.getChildren().add(line);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

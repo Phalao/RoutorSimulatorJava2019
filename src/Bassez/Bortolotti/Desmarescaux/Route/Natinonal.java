@@ -21,13 +21,13 @@ public class Natinonal extends Route {
         this.voie1 = new Voie(
                 new Position(A.getPos().getX(),A.getPos().getY()+2.5),
                 new Position(B.getPos().getX(),B.getPos().getY()+2.5),
-                this,m);
+                this,this.toString()+"1",m);
 
         //=== Initialisation de la deuxième Voie ===
         this.voie2 = new Voie(
                 new Position(A.getPos().getX(),A.getPos().getY()-2.5),
                 new Position(B.getPos().getX(),B.getPos().getY()-2.5),
-                this,m);
+                this,this.toString()+"2",m);
 
         //=== Caratéristique ===
         this.A = A;

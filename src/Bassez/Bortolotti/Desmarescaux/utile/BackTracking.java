@@ -13,41 +13,43 @@ public class BackTracking {
         parcour = new ArrayList<>();
     }
 
-    public synchronized ArrayList<Pair<Voie,Boolean>> Parcour(Main m, Ville A, Ville B,boolean sens){
+    public synchronized ArrayList<Pair<Voie,Boolean>> Parcour(Main m, Ville A, Ville B){
         ArrayList<ArrayList<Pair<Voie,Boolean>>> Totale = new ArrayList<>();
         for (Voie v : m.repository.ListVoie) {
-            if (A == v.route.A)
-                if (v.route.getDebut(sens) == v) {
-                    ArrayList<Pair<Voie,Boolean>> T = new ArrayList<>();
-                    T.add(new Pair<>(v,true));
+            if (A == v.route.A) {
+                if (v.route.getDebut(true) == v) {
+                    ArrayList<Pair<Voie, Boolean>> T = new ArrayList<>();
+                    T.add(new Pair<>(v.route.getDebut(true), true));
                     Totale.add(T);
                 }
-            else if (A == v.route.B)
-                if (v.route.getDebut(sens) == v) {
-                    ArrayList<Pair<Voie,Boolean>> T = new ArrayList<>();
-                    T.add(new Pair<>(v,false));
+            }
+            else if (A == v.route.B) {
+                if (v.route.getDebut(false) == v) {
+                    ArrayList<Pair<Voie, Boolean>> T = new ArrayList<>();
+                    T.add(new Pair<>(v.route.getDebut(false), false));
                     Totale.add(T);
                 }
+            }
         }
         for (int i = 0; i < Totale.size(); i++) {
             ArrayList<Pair<Voie, Boolean>> H = Totale.get(i);
-            System.out.println(H);
             if (H.get(H.size() - 1).getKey().route.getNoeud(H.get(H.size()-1).getValue()) == B){
-                System.out.println(H);
                 return H;
             } else {
-                ArrayList<Pair<Voie, Boolean>> toperelle = H;
+                ArrayList<Pair<Voie, Boolean>> toperelle = new ArrayList<>(H);
                 Totale.remove(H);
                 i =-1;
                 for (Voie v : m.repository.ListVoie) {
                     Pair<Voie, Boolean> p = toperelle.get(toperelle.size()-1);
                     if(p.getKey().route.getNoeud(p.getValue()) == v.route.A && v.route != p.getKey().route){
-                        toperelle.add(new Pair<>(v,true));
-                        Totale.add(toperelle);
+                        ArrayList<Pair<Voie, Boolean>> T = new ArrayList<>(toperelle);
+                        T.add(new Pair<>(v.route.getDebut(true),true));
+                        Totale.add(T);
                     }
                     else if(p.getKey().route.getNoeud(p.getValue()) == v.route.B && v.route != p.getKey().route){
-                        toperelle.add(new Pair<>(v,false));
-                        Totale.add(toperelle);
+                        ArrayList<Pair<Voie, Boolean>> T = new ArrayList<>(toperelle);
+                        T.add(new Pair<>(v.route.getDebut(false),false));
+                        Totale.add(T);
                     }
                 }
             }

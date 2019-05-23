@@ -1,5 +1,6 @@
 package Bassez.Bortolotti.Desmarescaux.Object;
 
+import Bassez.Bortolotti.Desmarescaux.Object.Obstacle.Feu;
 import Bassez.Bortolotti.Desmarescaux.Route.Departemental;
 import Bassez.Bortolotti.Desmarescaux.Route.Natinonal;
 import Bassez.Bortolotti.Desmarescaux.sample.Main;
@@ -48,7 +49,7 @@ public class Car {
         Distance = 0;
         timer = new AnimationTimer() {
             @Override
-            public void handle(long now) {
+            public synchronized void handle(long now) {
                 if (libre(voieOccupee) == null && !voieOccupee.ListVoiture.contains(c)) {
                     voieOccupee.ListVoiture.add(c);
                 }
@@ -73,12 +74,6 @@ public class Car {
                         Car car = libre(voieOccupee);
                         switch (voieOccupee.route.toString().charAt(0)) {
                             case 'N':
-                                if (libre(((Natinonal) voieOccupee.route).getVoie(sens)) == null && car.vmax < vmax) {
-                                    depassement = true;
-                                    voieOccupee.ListVoiture.remove(c);
-                                    voieOccupee = ((Natinonal) voieOccupee.route).getVoie(sens);
-                                } else
-                                    depassement = false;
                                 break;
                             case 'D':
                                 if (libre(((Departemental) voieOccupee.route).getVoie(sens)) == null  && car.vmax < vmax) {
@@ -101,7 +96,7 @@ public class Car {
                     }
                     else if(voieOccupee != voieDepart && libre(voieOccupee) != null) {
                         if (vitesse >= 2)
-                            vitesse = vitesse - 2;
+                            vitesse = vitesse - 3;
                         else
                             vitesse = 0;
                     }
@@ -109,26 +104,45 @@ public class Car {
                     //=== Si c'est fini ===
                     if (Distance >= distance) {
                         stop();
-                        rectangle.setVisible(false);
-                        voieOccupee.ListVoiture.remove(c);
+                        indice++;
                         if(villeFin != voieDepart.route.getNoeud(sens)){
                             switch (voieDepart.route.getNoeud(sens).toString().charAt(0)){
                                 case 'F':
-                                    System.out.println("Il y a un FEU");
+                                    new AnimationTimer() {
+                                        @Override
+                                        public void handle(long now) {
+                                            Feu f = (Feu) voieOccupee.route.getNoeud(sens);
+                                            if(f.getvert()){
+                                                    vitesse = 0;
+                                                }else if(libre(p.get(indice).getKey()) == null){
+                                                    voieOccupee.ListVoiture.remove(c);
+                                                    sens = p.get(indice).getValue();
+                                                    voieDepart = p.get(indice).getKey();
+                                                    avancement();
+                                                    stop();
+                                                    }
+                                            }
+                                    }.start();
+                                    break;
+                                case 'V':
+                                    voieOccupee.ListVoiture.remove(c);
+                                    sens = p.get(indice).getValue();
+                                    voieDepart = p.get(indice).getKey();
+                                    avancement();
+                                    stop();
                                     break;
                             }
-                            indice++;
-                            sens = p.get(indice).getValue();
-                            voieDepart = p.get(indice).getKey();
-                            avancement();
-                            rectangle.setVisible(true);
-                            vitesse = 0;
+                        }else {
+                            voieOccupee.ListVoiture.remove(c);
                         }
                     } else {
                         pos.setX(x);
                         pos.setY(y);
                         if (vitesse <= vmax)
                             vitesse++;
+                        if(Distance / distance >= 0.8)
+                            if(vitesse > 20)
+                                vitesse = vitesse -2;
                     }
                 }
             }
@@ -141,16 +155,20 @@ public class Car {
         villeFin = B;
         indice = 0;
 
-        BackTracking b = new BackTracking();
-        p = b.Parcour(m,villeDepart,villeFin,sens);
-        sens = p.get(indice).getValue();
-        voieDepart = p.get(indice).getKey();
-
-        vmax = ((Math.random()*60)+60);
-        vitesse = 0;
-        taille = (Math.random()*0 + 10);
-        c = this;
-        avancement();
+        if(A != B) {
+            BackTracking b = new BackTracking();
+            p = b.Parcour(m, villeDepart, villeFin);
+            sens = p.get(indice).getValue();
+            voieDepart = p.get(indice).getKey();
+            vmax = ((Math.random() * 60) + 60);
+            vitesse = 0;
+            taille = (Math.random() * 0 + 10);
+            c = this;
+            avancement();
+        }
+        else{
+            System.out.println("Même ville...");
+        }
     }
 
     public void afficher(Main m){
@@ -182,7 +200,7 @@ public class Car {
         if(v.route.toString() == "Nationnal" && v != voieDepart)
             max = v.route.longueur;
         else
-            max = arrondiNDecimales(Distance + (taille*1.1) + vitesse/3,2);
+            max = arrondiNDecimales(Distance + (taille*1.1) + vitesse/2,2);
         for (Car car:v.ListVoiture) {
                 if (car.Distance <= max && car.Distance >= min && c != car ) {
                     return car;

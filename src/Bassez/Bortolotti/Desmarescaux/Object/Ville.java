@@ -21,6 +21,7 @@ public class Ville implements Noeud {
     @Override
     public String toString() { return this.name; }
     public Position getPos(){ return pos; }
+    public double gettaille(){ return capacity;};
 
     public Ville(String name, int capacity, Position pos, Main m) {
         this.name = name;
