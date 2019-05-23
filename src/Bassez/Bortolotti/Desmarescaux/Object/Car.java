@@ -71,13 +71,13 @@ public class Car {
                         if (libre(voieOccupee) != null) {
                             Car car = libre(voieOccupee);
                             switch (voieOccupee.r.toString().charAt(0)) {
-                                case 'N':
-                                    if (libre(((Natinonal) voieOccupee.r).getVoie(true)) == null  && car.vmax < vmax) {
+                                case 'N'://TODO mettre les point en fonction du sens
+                                    /*if (libre(((Natinonal) voieOccupee.r).getVoie(true)) == null  && car.vmax < vmax) {
                                         depassement = true;
                                         voieOccupee.ListVoiture.remove(c);
                                         voieOccupee = ((Natinonal) voieOccupee.r).getVoie(true);
                                     } else
-                                        depassement = false;
+                                        depassement = false;*/
                                     break;
                                 case 'D':
                                     if (libre(((Departemental) voieOccupee.r).getVoie(sens)) == null  && car.vmax < vmax) {
@@ -159,28 +159,6 @@ public class Car {
         c = this;
 
         Afficher(root);
-    }
-
-    public Car(Ville A, Ville B,double vitesse, Pane root,Repository repository){
-        //=== On met les différente ville
-        villeDepart = A;
-        villeFin = B;
-
-        //=== On calcule le parcour et on le met sur la première voie
-        ArrayList<Voie> p = Parcour(repository);
-        if(p.size() != 0){
-            voieDepart = p.get(0);
-        }
-
-        //=== On calcule différente caratéristique ===
-        vmax = vitesse;
-        this.vitesse = vitesse;
-        taille = (Math.random()*0 + 10);
-        c = this;
-        if(p.size() != 0) {
-            voieDepart = p.get(0);
-            Afficher(root);
-        }
     }
 
     public Car libre(Voie v){

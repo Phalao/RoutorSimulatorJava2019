@@ -35,13 +35,13 @@ public class Main extends Application {
         Route D = new Departemental(villeC, villeD, 100, root, repository);
         repository.afficher(root);
 
-        Car car = new Car(villeC, villeD,true, root, repository);
+        Car car = new Car(villeA, villeB,true, root, repository);
         root.getChildren().add(car.rectangle);
         Car car2 = new Car(villeC, villeD,true, root, repository);
         root.getChildren().add(car2.rectangle);
         Car car3 = new Car(villeD, villeC,false, root, repository);
         root.getChildren().add(car3.rectangle);
-        Car car4 = new Car(villeD, villeC,false, root, repository);
+        Car car4 = new Car(villeB, villeA,false, root, repository);
         root.getChildren().add(car4.rectangle);
 
         //Fenetre
@@ -65,12 +65,14 @@ public class Main extends Application {
                     Car car3 = new Car(villeD, villeC,false, root, repository);
                     root.getChildren().add(car3.rectangle);
                 }
+                if(Math.random() >=0.99) {
+                    Car car4 = new Car(villeB, villeA,false, root, repository);
+                    root.getChildren().add(car4.rectangle);
+                }
 
             }
         };
         timer.start();
-
-
 
 
     }

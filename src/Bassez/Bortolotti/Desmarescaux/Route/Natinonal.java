@@ -10,12 +10,11 @@ public class Natinonal extends Route {
     private Voie voie1;
     private Voie voie2;
 
-    public Voie getVoie1() {
-        return voie1;
-    }
-
     public Voie getVoie(boolean t) {
-        return voie2;
+        if (t)
+            return voie2;
+        else
+            return voie1;
     }
 
     public Natinonal(Ville A, Ville B, int v, Pane root, Repository repository) {
@@ -24,8 +23,8 @@ public class Natinonal extends Route {
                 new Position(B.pos.getX(),B.pos.getY()+2.5),
                 this,repository);
         this.voie2 = new Voie(
-                new Position(A.pos.getX(),A.pos.getY()-2.5),
                 new Position(B.pos.getX(),B.pos.getY()-2.5),
+                new Position(A.pos.getX(),A.pos.getY()-2.5),
                 this,repository);
         this.A = A;
         this.B = B;
@@ -38,5 +37,10 @@ public class Natinonal extends Route {
         return "National";
     }
 
-    public Voie getDebut(boolean t){return voie1;}
+    public Voie getDebut(boolean t){
+        if(t)
+            return voie1;
+        else
+            return voie2;
+    }
 }
