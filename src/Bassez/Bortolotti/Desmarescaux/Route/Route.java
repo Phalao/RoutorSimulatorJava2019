@@ -11,4 +11,5 @@ public abstract class Route{
 
     public abstract Voie getVoie(boolean t);
     public abstract Voie getDebut(boolean t);
+    public Noeud getNoeud(boolean t){return (t)? B:A;}
 }

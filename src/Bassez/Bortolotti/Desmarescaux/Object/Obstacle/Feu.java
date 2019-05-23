@@ -23,4 +23,9 @@ public class Feu extends Obstacle implements Noeud{
         rectangle.setFill(Color.BLACK);
         m.root.getChildren().add(rectangle);
     }
+
+    @Override
+    public String toString() {
+        return "Feu";
+    }
 }

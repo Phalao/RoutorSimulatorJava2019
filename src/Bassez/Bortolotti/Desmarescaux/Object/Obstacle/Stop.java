@@ -7,4 +7,9 @@ public class Stop extends Obstacle {
     public Stop(Position pos, Route routeA, Route routeB, Priorite ordrePrio) {
         super(pos, ordrePrio);
     }
+
+    @Override
+    public String toString() {
+        return "Stop";
+    }
 }

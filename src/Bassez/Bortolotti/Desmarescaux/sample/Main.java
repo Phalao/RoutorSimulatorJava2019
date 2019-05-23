@@ -46,12 +46,12 @@ public class Main extends Application {
         primaryStage.show();
         repository.afficher(this);
 
-        Car c = new Car(villeC,villeD,true,this);
+        Car c = new Car(villeC,villeD,this);
         c.afficher(this);
 
-        //Car c2 = new Car(villeC,villeD,false,this);
+        //Car c2 = new Car(villeC,villeD,this);
         //c2.afficher(this);
-        //Car c3 = new Car(villeC,villeD,false,this);
+        //Car c3 = new Car(villeC,villeD,this);
         //c3.afficher(this);
     }
 

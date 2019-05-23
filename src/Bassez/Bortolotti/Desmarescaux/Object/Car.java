@@ -3,6 +3,7 @@ package Bassez.Bortolotti.Desmarescaux.Object;
 import Bassez.Bortolotti.Desmarescaux.Route.Departemental;
 import Bassez.Bortolotti.Desmarescaux.Route.Natinonal;
 import Bassez.Bortolotti.Desmarescaux.sample.Main;
+import Bassez.Bortolotti.Desmarescaux.utile.BackTracking;
 import Bassez.Bortolotti.Desmarescaux.utile.Position;
 import Bassez.Bortolotti.Desmarescaux.utile.Repository;
 import Bassez.Bortolotti.Desmarescaux.utile.Voie;
@@ -14,6 +15,7 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 
@@ -32,10 +34,12 @@ public class Car {
     private Position pos;
     private Car c;
     private boolean sens;
+    private ArrayList<Pair<Voie,Boolean>> p;
+    private int indice;
 
     private static final double t = 0.01;
 
-    public synchronized void avancement(Pane root){
+    public synchronized void avancement(){
         voieOccupee = voieDepart;
         if(sens)
             this.pos = new Position(this.voieOccupee.A);
@@ -107,6 +111,19 @@ public class Car {
                         stop();
                         rectangle.setVisible(false);
                         voieOccupee.ListVoiture.remove(c);
+                        if(villeFin != voieDepart.route.getNoeud(sens)){
+                            switch (voieDepart.route.getNoeud(sens).toString().charAt(0)){
+                                case 'F':
+                                    System.out.println("Il y a un FEU");
+                                    break;
+                            }
+                            indice++;
+                            sens = p.get(indice).getValue();
+                            voieDepart = p.get(indice).getKey();
+                            avancement();
+                            rectangle.setVisible(true);
+                            vitesse = 0;
+                        }
                     } else {
                         pos.setX(x);
                         pos.setY(y);
@@ -119,34 +136,21 @@ public class Car {
         timer.start();
     }
 
-    private ArrayList<Voie> Parcour(Repository repository){
-        ArrayList<Voie> p = new ArrayList<>();
-        for(Voie v: repository.ListVoie){
-                if(this.villeDepart == v.route.A && this.villeFin == v.route.B)
-                    if(v.route.getDebut(sens) == v)
-                        p.add(v);
-        }
-        return p;
-    }
-
-    public Car(Ville A, Ville B,boolean s, Main m){
+    public Car(Ville A, Ville B, Main m){
         villeDepart = A;
         villeFin = B;
-        sens = s;
+        indice = 0;
 
-        ArrayList<Voie> p = Parcour(m.repository);
-        if(p.size() != 0){
-            voieDepart = p.get(0);
-        }
-        else {
-            System.out.println("La voiture ne peux pas y arrivé");
-        }
+        BackTracking b = new BackTracking();
+        p = b.Parcour(m,villeDepart,villeFin,sens);
+        sens = p.get(indice).getValue();
+        voieDepart = p.get(indice).getKey();
 
         vmax = ((Math.random()*60)+60);
         vitesse = 0;
         taille = (Math.random()*0 + 10);
         c = this;
-        avancement(m.root);
+        avancement();
     }
 
     public void afficher(Main m){

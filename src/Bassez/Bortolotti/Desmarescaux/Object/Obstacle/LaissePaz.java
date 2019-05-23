@@ -8,4 +8,9 @@ public class LaissePaz extends Obstacle {
     public LaissePaz(Position pos, Route routeA, Route routeB, Priorite ordrePrio) {
         super(pos,ordrePrio);
     }
+
+    @Override
+    public String toString() {
+        return "LaissePaz";
+    }
 }
