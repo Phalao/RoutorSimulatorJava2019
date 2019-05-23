@@ -28,18 +28,26 @@ public class Main extends Application {
         Instance = this;
 
         //=== Creation de la ville ===
-        Ville villeA = new Ville("VilleA", 10, new Position(100, 100), this);
-        Ville villeC = new Ville("VilleC", 10, new Position(400, 100), this);
-        //Ville villeD = new Ville("VilleD", 10, new Position(300, 200), this);
+        Ville villeA = new Ville("VilleA", 50, new Position(100, 100), this);
+        Ville villeC = new Ville("VilleC", 50, new Position(500, 200), this);
+        Ville villeD = new Ville("VilleD", 50, new Position(200, 300), this);
+        Ville villeE = new Ville("VilleD", 50, new Position(500, 500), this);
 
         //=== Creation des intersection ===
-        Feu F = new Feu(new Position(250,100), Obstacle.Priorite.UN,this);
+        Feu F1 = new Feu(new Position(350,250), Obstacle.Priorite.UN,this);
+        Feu F2 = new Feu(new Position(350,350), Obstacle.Priorite.UN,this);
 
         //=== Creation des different Route ===
-        Route N1 = new Natinonal(villeA ,F, 100,this);
-        Route N2 = new Natinonal(F,villeC, 100,this);
-        //Route N3 = new Departemental(F, villeD, 100,this);
-        //Route N4 = new Departemental(villeA, villeC, 100,this);
+        // new Natinonal(villeA ,F1, 100,this);
+    new Natinonal(F1,villeC, 100,this);
+    new Departemental(villeD, F2, 100,this);
+    new Departemental(villeC, F2, 100,this);
+    new Departemental(villeA, villeC, 100,this);
+    new Departemental(villeD, F1, 100,this);
+    new Departemental(villeD, villeE, 100,this);
+
+
+
 
         //=== On affiche les different element ===
         root = new Pane();
@@ -52,7 +60,7 @@ public class Main extends Application {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if(Math.random() >= 0.99) {
+                if(Math.random() >= 0.90) {
                     Ville d = repository.ListVille.get((int) (Math.random() * repository.ListVille.size()));
                     Ville f = repository.ListVille.get((int) (Math.random() * repository.ListVille.size()));
                     while (d.toString() == f.toString()) {

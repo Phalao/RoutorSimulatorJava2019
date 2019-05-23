@@ -3,8 +3,6 @@ package Bassez.Bortolotti.Desmarescaux.Object;
 
 import Bassez.Bortolotti.Desmarescaux.sample.Main;
 import Bassez.Bortolotti.Desmarescaux.utile.Position;
-import Bassez.Bortolotti.Desmarescaux.utile.Repository;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;

@@ -19,14 +19,14 @@ public class Natinonal extends Route {
     public Natinonal(Noeud A, Noeud B, int vitesseMax, Main m) {
         //=== Initialisation de la première Voie ===
         this.voie1 = new Voie(
-                new Position(A.getPos().getX(),A.getPos().getY()+2.5),
-                new Position(B.getPos().getX(),B.getPos().getY()+2.5),
+                new Position(A.getPos().getX(),A.getPos().getY()+5),
+                new Position(B.getPos().getX(),B.getPos().getY()+5),
                 this,this.toString()+"1",m);
 
         //=== Initialisation de la deuxième Voie ===
         this.voie2 = new Voie(
-                new Position(A.getPos().getX(),A.getPos().getY()-2.5),
-                new Position(B.getPos().getX(),B.getPos().getY()-2.5),
+                new Position(A.getPos().getX(),A.getPos().getY()-5),
+                new Position(B.getPos().getX(),B.getPos().getY()-5),
                 this,this.toString()+"2",m);
 
         //=== Caratéristique ===

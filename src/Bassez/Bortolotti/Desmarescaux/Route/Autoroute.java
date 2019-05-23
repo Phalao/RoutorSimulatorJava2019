@@ -3,9 +3,7 @@ package Bassez.Bortolotti.Desmarescaux.Route;
 import Bassez.Bortolotti.Desmarescaux.Object.Ville;
 import Bassez.Bortolotti.Desmarescaux.sample.Main;
 import Bassez.Bortolotti.Desmarescaux.utile.Position;
-import Bassez.Bortolotti.Desmarescaux.utile.Repository;
 import Bassez.Bortolotti.Desmarescaux.utile.Voie;
-import javafx.scene.layout.Pane;
 
 public class Autoroute extends Route {
     private Voie voie1;
@@ -42,7 +40,6 @@ public class Autoroute extends Route {
     public String toString() {
         return "Autoroute";
     }
-
     public Voie getVoie(boolean t) {
         return voie2;
     }
