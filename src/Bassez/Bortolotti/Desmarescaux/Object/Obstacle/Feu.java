@@ -10,6 +10,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 
 public class Feu extends Obstacle implements Noeud{
@@ -17,7 +18,8 @@ public class Feu extends Obstacle implements Noeud{
     public Position pos;
     public boolean vert;
     double temps;
-    private static final double t = 0.005;
+    private static final double t = 0.001;
+    Text text;
 
     public Feu(Position pos, Priorite ordrePrio, Main m) {
         super(pos,ordrePrio);
@@ -48,7 +50,32 @@ public class Feu extends Obstacle implements Noeud{
     public void afficher(Main m){
         rectangle = new Rectangle(pos.getX()-10,pos.getY()-10, 20, 20);
         rectangle.setFill(Color.BLACK);
+        if(!getvert())
+            text = new Text("Vert");
+        else
+            text = new Text("Rouge");
+        text.setLayoutX(pos.getX()-20);
+        text.setLayoutY(pos.getY()-20);
+        m.root.getChildren().add(text);
         m.root.getChildren().add(rectangle);
+    }
+
+    public void refresh(Main m){
+        m.root.getChildren().remove(text);
+        m.root.getChildren().remove(rectangle);
+        if(!getvert()) {
+            text = new Text("Vert");
+            text.setFill(Color.GREEN);
+        }
+        else{
+            text = new Text("Rouge");
+            text.setFill(Color.RED);
+        }
+        text.setLayoutX(pos.getX()-20);
+        text.setLayoutY(pos.getY()-20);
+        m.root.getChildren().add(text);
+        m.root.getChildren().add(rectangle);
+
     }
 
     @Override

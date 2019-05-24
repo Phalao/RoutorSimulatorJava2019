@@ -1,8 +1,7 @@
 package Bassez.Bortolotti.Desmarescaux.utile;
 
-import Bassez.Bortolotti.Desmarescaux.Object.Noeud;
+import Bassez.Bortolotti.Desmarescaux.Object.Car;
 import Bassez.Bortolotti.Desmarescaux.Object.Obstacle.Feu;
-import Bassez.Bortolotti.Desmarescaux.Object.Obstacle.Obstacle;
 import Bassez.Bortolotti.Desmarescaux.Object.Ville;
 import Bassez.Bortolotti.Desmarescaux.Route.Departemental;
 import Bassez.Bortolotti.Desmarescaux.sample.Main;
@@ -15,6 +14,7 @@ public class Repository {
     public ArrayList<Feu> ListObstalce;
     public ArrayList<Ville> ListVille;
     public ArrayList<Voie> ListVoie;
+    public ArrayList<Car> ListCar;
 
     public void afficher(Main m) {
         for ( Voie v: ListVoie)
@@ -27,7 +27,17 @@ public class Repository {
             v.afficher(m);
     }
 
+    public void refresh(Main m){
+        for ( Car c: ListCar)
+            c.refresh(m);
+        for ( Feu f: ListObstalce)
+            f.refresh(m);
+        for ( Ville v: ListVille)
+            v.refresh(m);
+    }
+
     public Repository(){
+        ListCar = new ArrayList<>();
         ListRoute = new ArrayList<>();
         ListObstalce = new ArrayList<>();
         ListVille = new ArrayList<>();

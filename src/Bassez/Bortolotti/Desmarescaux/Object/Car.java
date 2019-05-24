@@ -40,8 +40,9 @@ public class Car {
 
     private static final double t = 0.01;
 
-    public synchronized void avancement(){
+    public synchronized void avancement(Main m){
         voieOccupee = voieDepart;
+        vmax = ((Math.random() * 60) + voieOccupee.route.getVitesse()-20);
         if(sens)
             this.pos = new Position(this.voieOccupee.A);
         else
@@ -52,6 +53,7 @@ public class Car {
             public synchronized void handle(long now) {
                 if (libre(voieOccupee) == null && !voieOccupee.ListVoiture.contains(c)) {
                     voieOccupee.ListVoiture.add(c);
+                    m.repository.ListCar.add(c);
                 }
                 if (voieOccupee.ListVoiture.contains(c)) {
                     double distance = (Math.sqrt(Math.pow(voieOccupee.B.getX() - voieOccupee.A.getX(), 2) + Math.pow(voieOccupee.B.getY() - voieOccupee.A.getY(), 2)));
@@ -93,6 +95,7 @@ public class Car {
                     else if (voieOccupee != voieDepart && libre(voieDepart) == null) {
                         voieOccupee.ListVoiture.remove(c);
                         voieOccupee = voieDepart;
+                        vitesse = vitesse - 3;
                     }
                     else if(voieOccupee != voieDepart && libre(voieOccupee) != null) {
                         if (vitesse >= 2)
@@ -118,7 +121,7 @@ public class Car {
                                                     voieOccupee.ListVoiture.remove(c);
                                                     sens = p.get(indice).getValue();
                                                     voieDepart = p.get(indice).getKey();
-                                                    avancement();
+                                                    avancement(m);
                                                     stop();
                                                     }
                                             }
@@ -128,12 +131,14 @@ public class Car {
                                     voieOccupee.ListVoiture.remove(c);
                                     sens = p.get(indice).getValue();
                                     voieDepart = p.get(indice).getKey();
-                                    avancement();
+                                    avancement(m);
                                     stop();
                                     break;
                             }
                         }else {
                             voieOccupee.ListVoiture.remove(c);
+                            m.repository.ListCar.remove(c);
+                            rectangle.setVisible(false);
                         }
                     } else {
                         pos.setX(x);
@@ -160,11 +165,10 @@ public class Car {
             p = b.Parcour(m, villeDepart, villeFin);
             sens = p.get(indice).getValue();
             voieDepart = p.get(indice).getKey();
-            vmax = ((Math.random() * 60) + 60);
             vitesse = 0;
             taille = (Math.random() * 0 + 10);
             c = this;
-            avancement();
+            avancement(m);
         }
         else{
             System.out.println("Même ville...");
@@ -173,8 +177,28 @@ public class Car {
 
     public void afficher(Main m){
         rectangle = new Rectangle(villeDepart.pos.getX(),villeDepart.pos.getY(), taille, 3);
-        rectangle.setFill(Color.RED);
+        rectangle.setFill(Color.BLUE);
         m.root.getChildren().add(rectangle);
+    }
+
+    public void refresh(Main m) {
+        Boolean changement = false;
+        if (vitesse <= 20) {
+            if(rectangle.getFill() == Color.BLUE)
+                changement = true;
+            rectangle.setFill(Color.RED);
+        }
+        else {
+            if(rectangle.getFill() == Color.RED)
+                changement = true;
+            rectangle.setFill(Color.BLUE);
+        }
+
+        if(changement) {
+            m.root.getChildren().remove(rectangle);
+            rectangle = new Rectangle(villeDepart.pos.getX(), villeDepart.pos.getY(), taille, 3);
+            m.root.getChildren().add(rectangle);
+        }
     }
 
     public void animation(double x,double y,double t){

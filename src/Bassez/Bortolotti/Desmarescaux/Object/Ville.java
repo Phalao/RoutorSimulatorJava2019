@@ -15,6 +15,7 @@ public class Ville implements Noeud {
     public Position pos;
     public Circle circle;
     public String name;
+    public Text text;
 
     @Override
     public String toString() { return this.name; }
@@ -35,11 +36,16 @@ public class Ville implements Noeud {
                 new Stop(0, Color.RED),
                 new Stop(1, Color.CRIMSON));
         circle.setFill(gradient_1);
-        Text text = new Text(this.toString());
+        text = new Text(this.toString());
         text.setLayoutX(pos.getX()+capacity);
         text.setLayoutY(pos.getY()-capacity);
         text.setFill(Color.BLUE);
         m.root.getChildren().add(text);
+        m.root.getChildren().add(circle);
+    }
+
+    public void refresh(Main m){
+        m.root.getChildren().remove(circle);
         m.root.getChildren().add(circle);
     }
 }
